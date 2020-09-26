@@ -48,6 +48,23 @@ module PowerAssert
     @@config ||= Config.new
   end
 
+  class Breakdown
+    def initialize(@value : String, @indent : Int32)
+    end
+
+    def value
+      @value
+    end
+
+    def indent
+      @indent
+    end
+
+    def to_s(io : IO)
+      io << " " * @indent  << @value
+    end
+  end
+  
   class Breakdowns < Array(Breakdown)
     def self.display(io : IO, breakdowns, only_bars = true)
       io << " " * PowerAssert.config.global_indent
@@ -106,22 +123,7 @@ module PowerAssert
     end
   end
 
-  class Breakdown
-    def initialize(@value : String, @indent : Int32)
-    end
 
-    def value
-      @value
-    end
-
-    def indent
-      @indent
-    end
-
-    def to_s(io : IO)
-      io << " " * @indent  << @value
-    end
-  end
 
   class Node
     def initialize(@ident : String, @value_inspect : String)
